@@ -188,7 +188,7 @@ class _DashBoardState extends State<DashBoard> {
                           child: TextFormField(
                             validator: (value) {
                               if (value.isEmpty) return 'Enter the device ID';
-                              if (value.length != 5)
+                              if (value.length < 5)
                                 return 'Enter the correct device ID';
                               return null;
                             },

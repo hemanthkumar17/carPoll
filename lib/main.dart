@@ -91,8 +91,7 @@ class _DashBoardState extends State<DashBoard> {
     final eventUrl = Uri.https(invokeEventUrl, '/getdata', qParams);
     print(eventUrl);
 
-    // final r =
-    //     await get(eventUrl, headers: {"Content-Type": "application/json"});
+     final r = await get(eventUrl, headers: {"Content-Type": "application/json"});
     //print(r.body);
     // Decode JSON here and assign it to the list cars
     series1 = [
@@ -239,7 +238,7 @@ class _DashBoardState extends State<DashBoard> {
           title: Text(current.carName),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.settings), onPressed: () => getDeviceId())
+                icon: Icon(Icons.add), onPressed: () => getDeviceId())
           ],
         ),
         drawer: Drawer(

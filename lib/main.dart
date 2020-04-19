@@ -264,7 +264,7 @@ class _DashBoardState extends State<DashBoard> {
               ] +
               drawerFragments,
         )),
-        body: Container(
+        body: SingleChildScrollView(
             child: Column(
           children: <Widget>[
             Container(child: Image.asset('assets/images/car_icon.jpg')),

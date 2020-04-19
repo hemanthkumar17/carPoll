@@ -53,21 +53,21 @@ class _DashBoardState extends State<DashBoard> {
     fetchData();
   }
 
-  storeId(text) async{
-  final prefs = await SharedPreferences.getInstance();
-  prefs.setString('_deviceId', text);
+  storeId(text) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('_deviceId', text);
   }
 
-  getId() async{
+  getId() async {
     final prefs = await SharedPreferences.getInstance();
-    setState((){deviceId = prefs.getString('_deviceId') ?? "55555";
+    setState(() {
+      deviceId = prefs.getString('_deviceId') ?? "55555";
     });
   }
 
   fetchData() async {
     getId();
-    if(deviceId == null)
-      deviceId = "55555";
+    if (deviceId == null) deviceId = "55555";
     cars = [
       new CarData('TN00AA0000', 'Audi A5', [
         ChartData(80.50, DateTime.now()),
@@ -188,11 +188,10 @@ class _DashBoardState extends State<DashBoard> {
                           padding: EdgeInsets.all(8.0),
                           child: TextFormField(
                             validator: (value) {
-                              if(value.isEmpty)
-                                return 'Enter the device ID';
-                              if(value.length != 5)
+                              if (value.isEmpty) return 'Enter the device ID';
+                              if (value.length != 5)
                                 return 'Enter the correct device ID';
-                                return null;
+                              return null;
                             },
                             controller: _deviceIdController,
                             decoration: const InputDecoration(
@@ -209,7 +208,7 @@ class _DashBoardState extends State<DashBoard> {
                             if (_formKey.currentState.validate()) {
                               _formKey.currentState.save();
                               Navigator.pop(context);
-                                storeId(_deviceIdController.text);                                
+                              storeId(_deviceIdController.text);
                               setState(() {
                                 fetchData();
                               });
@@ -264,7 +263,7 @@ class _DashBoardState extends State<DashBoard> {
               ] +
               drawerFragments,
         )),
-        body: Container(
+        body: SingleChildScrollView(
             child: Column(
           children: <Widget>[
             Container(child: Image.asset('assets/images/car_icon.jpg')),

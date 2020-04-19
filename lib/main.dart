@@ -73,14 +73,6 @@ class _DashBoardState extends State<DashBoard> {
 
   getId() async {
     final prefs = await SharedPreferences.getInstance();
-<<<<<<< HEAD
-    deviceId = prefs.getString('_deviceId') ?? "55555";
-  }
-
-  fetchData() async {
-    await getId();
-    if (deviceId == null) deviceId = "55555";
-=======
     setState(() {
       deviceId = prefs.getString('_deviceId') ?? "testid69";
     });
@@ -89,7 +81,6 @@ class _DashBoardState extends State<DashBoard> {
   fetchData() async {
     getId();
     if (deviceId == null) deviceId = "testid69";
->>>>>>> 393e2f828765a2594a3c12660c134e9748d2f5fc
     cars = [
       null,
       new CarData('TN11AA1111', 'Audi A6', [
@@ -108,18 +99,12 @@ class _DashBoardState extends State<DashBoard> {
     final eventUrl = Uri.https(invokeEventUrl, '/getdata', qParams);
     print(eventUrl);
 
-<<<<<<< HEAD
-     final r = await get(eventUrl, headers: {"Content-Type": "application/json"});
-    //print(r.body);
-    // Decode JSON here and assign it to the list cars
-=======
     final r =
         await get(eventUrl, headers: {"Content-Type": "application/json"});
 
     cars[0] = CarData.fromJson(json.decode(r.body));
     current = cars[0];
 
->>>>>>> 393e2f828765a2594a3c12660c134e9748d2f5fc
     series1 = [
       new Series<ChartData, String>(
         id: 'Efficiency',
@@ -214,11 +199,6 @@ class _DashBoardState extends State<DashBoard> {
                           child: TextFormField(
                             validator: (value) {
                               if (value.isEmpty) return 'Enter the device ID';
-<<<<<<< HEAD
-                              if (value.length < 5)
-                                return 'Enter the correct device ID';
-=======
->>>>>>> 393e2f828765a2594a3c12660c134e9748d2f5fc
                               return null;
                             },
                             controller: _deviceIdController,

@@ -38,10 +38,8 @@ class CarData {
   factory CarData.fromJson(Map<String, dynamic> json) {
     List<ChartData> cdata = [];
     json["journeyData"].forEach((e){
-      print(e);
-      cdata = cdata + [ChartData(e["data"]["emission"].toDouble(), DateTime.parse(e["startTime"]))];
+      cdata = cdata + [ChartData(e["emissionAvg"].toDouble(), DateTime.parse(e["startTime"]))];
     });
-    print(cdata);
     return CarData(
       '1234',
       'Audi',
@@ -90,7 +88,6 @@ class _DashBoardState extends State<DashBoard> {
         ChartData(20, DateTime.now().add(Duration(days: 4)))
       ]),
     ];
-    print(DateTime.now().toString().substring(0, 10));
 
 
     Map<String, String> qParams = {
@@ -104,10 +101,10 @@ class _DashBoardState extends State<DashBoard> {
 
     final r =
         await get(eventUrl, headers: {"Content-Type": "application/json"});
-    print(r.headers);
-    //cars[0] = CarData.fromJson(json.decode(r.body));
+
+    cars[0] = CarData.fromJson(json.decode(r.body));
     current = cars[0];
-    // Decode JSON here and assign it to the list cars
+
     series1 = [
       new Series<ChartData, String>(
         id: 'Efficiency',

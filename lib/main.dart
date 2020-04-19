@@ -55,18 +55,16 @@ class _DashBoardState extends State<DashBoard> {
 
   storeId(text) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('_deviceId', text);
+    await prefs.setString('_deviceId', text);
   }
 
   getId() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      deviceId = prefs.getString('_deviceId') ?? "55555";
-    });
+    deviceId = prefs.getString('_deviceId') ?? "55555";
   }
 
   fetchData() async {
-    getId();
+    await getId();
     if (deviceId == null) deviceId = "55555";
     cars = [
       new CarData('TN00AA0000', 'Audi A5', [
@@ -208,9 +206,7 @@ class _DashBoardState extends State<DashBoard> {
                               _formKey.currentState.save();
                               Navigator.pop(context);
                               storeId(_deviceIdController.text);
-                              setState(() {
-                                fetchData();
-                              });
+                              fetchData();
                             }
                           },
                         ),

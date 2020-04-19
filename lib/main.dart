@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' hide TextStyle;
 import 'package:http/http.dart';
@@ -33,6 +35,19 @@ class CarData {
   String carName;
   List<ChartData> data;
   CarData(this.regNo, this.carName, this.data);
+  factory CarData.fromJson(Map<String, dynamic> json) {
+    List<ChartData> cdata = [];
+    json["journeyData"].forEach((e){
+      print(e);
+      cdata = cdata + [ChartData(e["data"]["emission"].toDouble(), DateTime.parse(e["startTime"]))];
+    });
+    print(cdata);
+    return CarData(
+      '1234',
+      'Audi',
+      cdata,
+    );
+  }
 }
 
 class _DashBoardState extends State<DashBoard> {
@@ -61,18 +76,15 @@ class _DashBoardState extends State<DashBoard> {
   getId() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      deviceId = prefs.getString('_deviceId') ?? "55555";
+      deviceId = prefs.getString('_deviceId') ?? "testid69";
     });
   }
 
   fetchData() async {
     getId();
-    if (deviceId == null) deviceId = "55555";
+    if (deviceId == null) deviceId = "testid69";
     cars = [
-      new CarData('TN00AA0000', 'Audi A5', [
-        ChartData(80.50, DateTime.now()),
-        ChartData(70.98, DateTime.now().add(Duration(days: 2)))
-      ]),
+      null,
       new CarData('TN11AA1111', 'Audi A6', [
         ChartData(10, DateTime.now()),
         ChartData(20, DateTime.now().add(Duration(days: 4)))
@@ -80,20 +92,21 @@ class _DashBoardState extends State<DashBoard> {
     ];
     print(DateTime.now().toString().substring(0, 10));
 
-    current = cars[0];
 
     Map<String, String> qParams = {
       "deviceId": deviceId,
-      //  "startTime": DateTime.now().toString().substring(0, 10),
-      //  "endTime": DateTime.now().add(Duration(days: -30)).toString().substring(0, 10),
+       "startTime": DateTime.now().add(Duration(days: -2*365)).toString().substring(0, 10),
+       "endTime": DateTime.now().toString().substring(0, 10),
     };
     final invokeEventUrl = "carspoll.azurewebsites.net";
     final eventUrl = Uri.https(invokeEventUrl, '/getdata', qParams);
     print(eventUrl);
 
-    // final r =
-    //     await get(eventUrl, headers: {"Content-Type": "application/json"});
-    //print(r.body);
+    final r =
+        await get(eventUrl, headers: {"Content-Type": "application/json"});
+    print(r.headers);
+    //cars[0] = CarData.fromJson(json.decode(r.body));
+    current = cars[0];
     // Decode JSON here and assign it to the list cars
     series1 = [
       new Series<ChartData, String>(
@@ -189,8 +202,6 @@ class _DashBoardState extends State<DashBoard> {
                           child: TextFormField(
                             validator: (value) {
                               if (value.isEmpty) return 'Enter the device ID';
-                              if (value.length != 5)
-                                return 'Enter the correct device ID';
                               return null;
                             },
                             controller: _deviceIdController,

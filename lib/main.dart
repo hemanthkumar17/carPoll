@@ -96,7 +96,7 @@ class _DashBoardState extends State<DashBoard> {
        "endTime": DateTime.now().toString().substring(0, 10),
     };
     final invokeEventUrl = "carspoll.azurewebsites.net";
-    final eventUrl = Uri.https(invokeEventUrl, '/getdata', qParams);
+    final eventUrl = Uri.https(invokeEventUrl, '/data', qParams);
     print(eventUrl);
 
     final r =

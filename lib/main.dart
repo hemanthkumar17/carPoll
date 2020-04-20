@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' hide TextStyle;
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -99,8 +99,7 @@ class _DashBoardState extends State<DashBoard> {
     final eventUrl = Uri.https(invokeEventUrl, '/data', qParams);
     print(eventUrl);
 
-    final r =
-        await get(eventUrl, headers: {"Content-Type": "application/json"});
+    final r = await http.get(eventUrl, headers: {"Content-Type": "application/json"});
 
     cars[0] = CarData.fromJson(json.decode(r.body));
     current = cars[0];
